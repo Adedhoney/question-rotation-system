@@ -1,0 +1,31 @@
+{
+    "name": "question-rotation-system",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "lint": "eslint .",
+        "dev": "npm run lint && npx nodemon",
+        "build": "rimraf ./build && tsc && tsc-alias",
+        "start-dev": "npm run build && node build/index.js",
+        "start": "node build/index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.8.1",
+        "@types/node-cron": "^3.0.11",
+        "nodemon": "^3.1.7",
+        "typescript": "^5.6.3"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.1",
+        "node-cron": "^3.0.3",
+        "redis": "^4.7.0"
+    }
+}
