@@ -9,7 +9,7 @@ const app = express()
 
 // Redis connection
 const redis: RedisClientType = createClient({
-    url: config.redis.url,
+    url: config.redis.uri,
 })
 const questionService = new QuestionService(redis)
 

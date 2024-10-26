@@ -5,9 +5,7 @@ dotenv.config()
 export const config = {
     port: 3000,
     redis: {
-        url:
-            process.env.REDIS_HOST ||
-            "redis://default:OC1uZvJCou3Y02LO2zzNnT9JtfjHMZzE@redis-14519.c326.us-east-1-3.ec2.redns.redis-cloud.com:14519",
+        uri: process.env.REDIS_URI || "localhost",
     },
     questionCycle: {
         defaultDurationDays: 7,
