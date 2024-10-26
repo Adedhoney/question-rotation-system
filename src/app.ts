@@ -10,9 +10,6 @@ const app = express()
 // Redis connection
 const redis: RedisClientType = createClient({
     url: config.redis.url,
-    socket: {
-        tls: true,
-    },
 })
 const questionService = new QuestionService(redis)
 
@@ -45,7 +42,7 @@ app.use(
         res: express.Response,
         next: express.NextFunction
     ) => {
-        console.error(err.stack)
+        console.error(err.message)
         res.status(500).json({
             error: "Something went wrong!",
         })

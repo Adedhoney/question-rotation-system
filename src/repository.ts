@@ -28,9 +28,12 @@ export const getCurrentCycle = () => {
 }
 
 export const getUser = (id: number) => {
-    return data.Users.map((user) => {
-        if (user.id === id) return user
-    })[0]
+    const users = data.Users.filter((user) => {
+        if (user.id === id) {
+            return true
+        }
+    })
+    return users[0]
 }
 
 export const assignQuestions = (questions: Question[]) => {

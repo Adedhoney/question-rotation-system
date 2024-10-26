@@ -6,7 +6,7 @@ import {
     getRegions,
     getUser,
     updateCurrentCycle,
-} from "repository"
+} from "./repository"
 import { Question } from "models"
 
 export class QuestionService {
@@ -25,9 +25,7 @@ export class QuestionService {
             throw new Error("User not found")
         }
         // Try cache first
-        const cacheKey = await this.getQuestionKey(
-            user.region
-        )
+        const cacheKey = this.getQuestionKey(user.region)
         const cachedQuestion = await this.redis.get(
             cacheKey
         )
@@ -54,6 +52,8 @@ export class QuestionService {
     }
 
     async rotateQuestions(): Promise<void> {
+        await this.redis.connect()
+
         const pipeline = this.redis.multi()
         // Get all regions
 
@@ -66,8 +66,11 @@ export class QuestionService {
         )
         let lastAssignedQuestion = currentCycle.lastQuestion
 
-        for (let i = 0; 1 < regions.length; i++) {
+        for (let i = 0; i < regions.length; i++) {
+            questions[i].cycle = nextCycleNumber
+            questions[i].region = regions[i].name
             const nextQuestion = questions[i]
+
             lastAssignedQuestion = nextQuestion.id
 
             if (!nextQuestion) {
@@ -80,10 +83,9 @@ export class QuestionService {
                 this.getQuestionKey(regions[i].name),
                 JSON.stringify(nextQuestion)
             )
-
-            questions[i].cycle = nextCycleNumber
-            questions[i].region = regions[i].name
         }
+        // Commit the pipeline using exec()
+        pipeline.exec()
 
         assignQuestions(questions)
         updateCurrentCycle(lastAssignedQuestion)
