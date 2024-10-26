@@ -89,7 +89,7 @@ REDIS_URI=your redis uri
 ### API Endpoints
 
 ```
-GET /api/regions/:regionId/question
+GET /api/user/:userId/question
 ```
 
 ## Performance Metrics
